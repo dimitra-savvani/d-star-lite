@@ -2,6 +2,10 @@ import heapq
 from utils import stateNameToCoords
 
 
+import heapq
+from utils import stateNameToCoords
+
+
 def topKey(queue):
     queue.sort()
     # print(queue)
@@ -27,8 +31,7 @@ def updateVertex(graph, queue, id, s_current, k_m):
     if id != s_goal:
         min_rhs = float('inf')
         for i in graph.graph[id].children:
-            min_rhs = min(
-                min_rhs, graph.graph[i].g + graph.graph[id].children[i])
+            min_rhs = min(min_rhs, graph.graph[i].g + graph.graph[id].children[i])
         graph.graph[id].rhs = min_rhs
     id_in_queue = [item for item in queue if id in item]
     if id_in_queue != []:
@@ -87,8 +90,7 @@ def scanForObstacles(graph, queue, s_current, scan_range, k_m):
     if scan_range >= 1:
         for neighbor in graph.graph[s_current].children:
             neighbor_coords = stateNameToCoords(neighbor)
-            states_to_update[neighbor] = graph.cells[neighbor_coords[1]
-                                                     ][neighbor_coords[0]]
+            states_to_update[neighbor] = graph.cells[neighbor_coords[1]][neighbor_coords[0]]
         range_checked = 1
     # print(states_to_update)
 
@@ -99,8 +101,7 @@ def scanForObstacles(graph, queue, s_current, scan_range, k_m):
             for neighbor in graph.graph[state].children:
                 if neighbor not in new_set:
                     neighbor_coords = stateNameToCoords(neighbor)
-                    new_set[neighbor] = graph.cells[neighbor_coords[1]
-                                                    ][neighbor_coords[0]]
+                    new_set[neighbor] = graph.cells[neighbor_coords[1]][neighbor_coords[0]]
         range_checked += 1
         states_to_update = new_set
 
@@ -113,6 +114,7 @@ def scanForObstacles(graph, queue, s_current, scan_range, k_m):
                 if(graph.graph[state].children[neighbor] != float('inf')):
                     neighbor_coords = stateNameToCoords(state)
                     graph.cells[neighbor_coords[1]][neighbor_coords[0]] = -2
+                    print('Show obs')
                     graph.graph[neighbor].children[state] = float('inf')
                     graph.graph[state].children[neighbor] = float('inf')
                     updateVertex(graph, queue, state, s_current, k_m)
